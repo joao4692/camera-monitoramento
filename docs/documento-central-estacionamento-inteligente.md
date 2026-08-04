@@ -195,6 +195,7 @@ erDiagram
 - **Sinalizar imediatamente** se o pedido do usuário estiver saindo do escopo definido neste documento (ex: sugestão de trocar Postgres por MongoDB, adicionar reconhecimento de placa sem ter sido pedido, etc.), explicando o desvio antes de agir.
 - Qualquer mudança de arquitetura ou regra de negócio precisa ser **autorizada explicitamente** antes de ser aplicada — se não for autorizada, seguir o que já está documentado.
 - Ao final de cada etapa, resumir o que foi feito e o que falta, para o aprendiz acompanhar o progresso.
+- **Ao final de cada etapa, parar e aguardar.** Depois do resumo, dar espaço para o aprendiz trazer perguntas, dúvidas ou pedidos de ajuste sobre o que foi feito. Só marcar a etapa como encerrada (✅ no checklist) e seguir para a próxima depois que esse momento de perguntas for aberto e respondido — não emendar direto na etapa seguinte.
 
 ---
 

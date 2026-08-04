@@ -208,3 +208,4 @@
 2. Marque cada passo como `[x]` assim que for concluído.
 3. Atualize a tabela de **Visão geral do progresso** no topo conforme cada etapa avançar.
 4. Qualquer decisão nova que surgir durante a execução (ex: onde fazer o deploy) deve ser registrada e autorizada no [documento central](./documento-central-estacionamento-inteligente.md) antes de ser aplicada aqui.
+5. **Ao terminar de implementar uma etapa, pausar antes de marcar como ✅ Concluído.** Abrir espaço para perguntas, dúvidas ou pedidos de ajuste sobre o que foi feito. Só marcar a etapa como concluída na tabela de progresso e seguir para a próxima depois desse momento — nunca emendar direto na etapa seguinte.
