@@ -12,7 +12,7 @@
 | --- | ----------------------------------- | ----------- |
 | 1   | Setup do projeto (monorepo)         | ✅ Concluído |
 | 2   | Backend Node.js (base)              | ✅ Concluído |
-| 3   | Banco de dados (Postgres + Prisma)  | 🟨 Em andamento |
+| 3   | Banco de dados (Postgres + Prisma)  | ✅ Concluído |
 | 4   | Autenticação (admin)                | ⬜ Pendente |
 | 5   | Regras de negócio de estacionamento | ⬜ Pendente |
 | 6   | WebSocket no Node                   | ⬜ Pendente |
