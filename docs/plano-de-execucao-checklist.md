@@ -13,7 +13,7 @@
 | 1   | Setup do projeto (monorepo)         | ✅ Concluído |
 | 2   | Backend Node.js (base)              | ✅ Concluído |
 | 3   | Banco de dados (Postgres + Prisma)  | ✅ Concluído |
-| 4   | Autenticação (admin)                | ⬜ Pendente |
+| 4   | Autenticação (admin)                | 🟨 Em andamento |
 | 5   | Regras de negócio de estacionamento | ⬜ Pendente |
 | 6   | WebSocket no Node                   | ⬜ Pendente |
 | 7   | Serviço Python (câmera + OpenCV)    | ⬜ Pendente |
@@ -79,13 +79,13 @@
 **O que é:** implementar o login exclusivo do admin usando JWT.
 **Para que serve:** proteger as rotas administrativas, já que o cliente final não precisa (e não deve) logar.
 
-- [ ] Criar model/tabela de usuário admin (já modelado na Etapa 3)
-- [ ] Criar service de hash de senha (ex: bcrypt) para cadastro/seed do admin
-- [ ] Criar rota de login (`POST /auth/login`) que valida credenciais e gera JWT
-- [ ] Validar payload de login com Zod
-- [ ] Criar middleware de autenticação JWT (verifica token nas rotas protegidas)
-- [ ] Aplicar o middleware nas rotas administrativas
-- [ ] Testar fluxo completo: login → token → acesso a rota protegida → bloqueio sem token
+- [x] Criar model/tabela de usuário admin (já modelado na Etapa 3)
+- [x] Criar service de hash de senha (bcrypt) para cadastro/seed do admin
+- [x] Criar rota de login (`POST /auth/login`) que valida credenciais e gera JWT
+- [x] Validar payload de login com Zod
+- [x] Criar middleware de autenticação JWT (verifica token nas rotas protegidas)
+- [x] Aplicar o middleware nas rotas administrativas (rota de teste `GET /auth/me`)
+- [x] Testar fluxo completo: login → token → acesso a rota protegida → bloqueio sem token
 
 ---
 

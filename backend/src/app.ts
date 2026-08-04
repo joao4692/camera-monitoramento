@@ -3,6 +3,7 @@ import cors from "cors";
 import { logger } from "./middlewares/logger";
 import { errorHandler } from "./middlewares/errorHandler";
 import healthRoutes from "./routes/health.routes";
+import authRoutes from "./routes/auth.routes";
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(logger);
 
 app.use(healthRoutes);
+app.use(authRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ error: "Rota não encontrada" });
