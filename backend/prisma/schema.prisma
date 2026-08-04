@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Estacionamento {
+  id             Int      @id @default(autoincrement())
+  nome           String
+  localizacao    String
+  totalVagas     Int      @map("total_vagas")
+  vagasOcupadas  Int      @default(0) @map("vagas_ocupadas")
+
+  eventos        Evento[]
+
+  @@map("estacionamentos")
+}
+
+enum TipoEvento {
+  entrada
+  saida
+}
+
+model Evento {
+  id                Int         @id @default(autoincrement())
+  tipo              TipoEvento
+  timestamp         DateTime    @default(now())
+  estacionamentoId  Int         @map("estacionamento_id")
+
+  estacionamento    Estacionamento @relation(fields: [estacionamentoId], references: [id])
+
+  @@map("eventos")
+}
+
+model Usuario {
+  id         Int    @id @default(autoincrement())
+  nome       String
+  email      String @unique
+  senhaHash  String @map("senha_hash")
+  tipo       String @default("admin")
+
+  @@map("usuarios")
+}

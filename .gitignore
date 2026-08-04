@@ -3,6 +3,15 @@ node_modules/
 dist/
 build/
 
+# Prisma
+backend/src/generated/
+
+# Material de referência gerado pelo `prisma init` (docs para assistentes de IA)
+backend/.claude/
+backend/.agents/
+backend/.windsurf/
+backend/skills-lock.json
+
 # Ambiente / segredos
 .env
 .env.local

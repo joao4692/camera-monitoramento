@@ -12,7 +12,7 @@
 | --- | ----------------------------------- | ----------- |
 | 1   | Setup do projeto (monorepo)         | ✅ Concluído |
 | 2   | Backend Node.js (base)              | ✅ Concluído |
-| 3   | Banco de dados (Postgres + Prisma)  | ⬜ Pendente |
+| 3   | Banco de dados (Postgres + Prisma)  | 🟨 Em andamento |
 | 4   | Autenticação (admin)                | ⬜ Pendente |
 | 5   | Regras de negócio de estacionamento | ⬜ Pendente |
 | 6   | WebSocket no Node                   | ⬜ Pendente |
@@ -63,14 +63,14 @@
 **O que é:** configurar a persistência de dados do estacionamento.
 **Para que serve:** guardar o estado do estacionamento, os eventos de entrada/saída e os usuários admin de forma confiável.
 
-- [ ] Subir uma instância local de Postgres (via Docker, ver Etapa 9, ou instalação local)
-- [ ] Instalar e configurar o Prisma no backend (`prisma init`)
-- [ ] Definir `DATABASE_URL` no `.env`
-- [ ] Modelar o schema Prisma: `Estacionamento`, `Evento`, `Usuario`
-- [ ] Rodar a primeira migration (`prisma migrate dev`)
-- [ ] Gerar o Prisma Client (`prisma generate`)
-- [ ] Criar script de seed inicial (ex: 1 estacionamento de teste com `total_vagas` definido)
-- [ ] Validar dados no banco (ex: via Prisma Studio)
+- [x] Subir uma instância local de Postgres (via Docker — `docker-compose.yml` na raiz)
+- [x] Instalar e configurar o Prisma no backend (`prisma init`)
+- [x] Definir `DATABASE_URL` no `.env`
+- [x] Modelar o schema Prisma: `Estacionamento`, `Evento`, `Usuario`
+- [x] Rodar a primeira migration (`prisma migrate dev`)
+- [x] Gerar o Prisma Client (`prisma generate`)
+- [x] Criar script de seed inicial (1 estacionamento de teste com `total_vagas` 50)
+- [x] Validar dados no banco (via `psql`; `npx prisma studio` disponível para conferência visual)
 
 ---
 
