@@ -196,6 +196,7 @@ erDiagram
 - Qualquer mudança de arquitetura ou regra de negócio precisa ser **autorizada explicitamente** antes de ser aplicada — se não for autorizada, seguir o que já está documentado.
 - Ao final de cada etapa, resumir o que foi feito e o que falta, para o aprendiz acompanhar o progresso.
 - **Ao final de cada etapa, parar e aguardar.** Depois do resumo, dar espaço para o aprendiz trazer perguntas, dúvidas ou pedidos de ajuste sobre o que foi feito. Só marcar a etapa como encerrada (✅ no checklist) e seguir para a próxima depois que esse momento de perguntas for aberto e respondido — não emendar direto na etapa seguinte.
+- **Testar só em pontos cruciais.** Focar teste (manual via curl ou automatizado) em lógica de negócio, autenticação e validações que realmente têm risco de quebrar — não parar o fluxo de trabalho para testar/reconfirmar coisas triviais ou que já foram validadas (ex: uma rota simples que já funcionou antes). O objetivo é manter o ritmo do desenvolvimento sem sacrificar a confiança nas partes que realmente importam.
 
 ---
 
