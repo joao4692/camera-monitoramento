@@ -10,8 +10,8 @@
 
 | #   | Etapa                               | Status      |
 | --- | ----------------------------------- | ----------- |
-| 1   | Setup do projeto (monorepo)         | ⬜ Pendente |
-| 2   | Backend Node.js (base)              | ⬜ Pendente |
+| 1   | Setup do projeto (monorepo)         | ✅ Concluído |
+| 2   | Backend Node.js (base)              | ✅ Concluído |
 | 3   | Banco de dados (Postgres + Prisma)  | ⬜ Pendente |
 | 4   | Autenticação (admin)                | ⬜ Pendente |
 | 5   | Regras de negócio de estacionamento | ⬜ Pendente |
@@ -30,14 +30,14 @@
 **O que é:** organizar a base do repositório antes de escrever qualquer linha de código de negócio.
 **Para que serve:** evita bagunça de pastas mais tarde e garante que backend, frontend e serviço Python fiquem isolados, mas versionados juntos.
 
-- [ ] Criar a pasta raiz do monorepo
-- [ ] Criar subpasta `backend/` (Node.js)
-- [ ] Criar subpasta `frontend/` (Angular)
-- [ ] Criar subpasta `camera-service/` (Python)
-- [ ] Iniciar repositório Git (`git init`)
-- [ ] Criar `.gitignore` (node_modules, dist, .env, **pycache**, venv, etc.)
-- [ ] Criar README inicial com visão geral do projeto e link para o documento central
-- [ ] Primeiro commit da estrutura base
+- [x ] Criar a pasta raiz do monorepo
+- [ x] Criar subpasta `backend/` (Node.js)
+- [ x] Criar subpasta `frontend/` (Angular)
+- [ x] Criar subpasta `camera-service/` (Python)
+- [ x] Iniciar repositório Git (`git init`)
+- [ x] Criar `.gitignore` (node_modules, dist, .env, **pycache**, venv, etc.)
+- [ x] Criar README inicial com visão geral do projeto e link para o documento central
+- [x ] Primeiro commit da estrutura base
 
 ---
 
@@ -46,15 +46,15 @@
 **O que é:** deixar o servidor Node.js rodando com a esqueleto de pastas definido no padrão MVC + Repositories.
 **Para que serve:** ter uma base sólida e organizada antes de implementar regra de negócio, autenticação ou WebSocket.
 
-- [ ] Iniciar projeto Node (`npm init`)
-- [ ] Instalar dependências principais: `express`, `prisma`, `zod`, `jsonwebtoken`, `ws`
-- [ ] Instalar dependências de desenvolvimento (ex: `nodemon`, `typescript` se for usado)
-- [ ] Criar estrutura de pastas: `controllers/`, `services/`, `repositories/`, `routes/`, `middlewares/`
-- [ ] Configurar servidor Express básico (`app.js`/`server.js`)
-- [ ] Configurar middleware de logger (auditoria de requisições)
-- [ ] Configurar middleware global de tratamento de erro (o servidor nunca deve cair)
-- [ ] Criar arquivo `.env` e `.env.example` com variáveis de ambiente do backend
-- [ ] Testar servidor local com uma rota de health-check (ex: `GET /health`)
+- [x] Iniciar projeto Node (`npm init`)
+- [x] Instalar dependências principais: `express`, `prisma`, `zod`, `jsonwebtoken`, `ws`
+- [x] Instalar dependências de desenvolvimento (`nodemon`, `typescript`, `ts-node`, `@types/*`)
+- [x] Criar estrutura de pastas: `controllers/`, `services/`, `repositories/`, `routes/`, `middlewares/`
+- [x] Configurar servidor Express básico (`app.ts`/`server.ts`)
+- [x] Configurar middleware de logger (auditoria de requisições)
+- [x] Configurar middleware global de tratamento de erro (o servidor nunca deve cair)
+- [x] Criar arquivo `.env` e `.env.example` com variáveis de ambiente do backend
+- [x] Testar servidor local com uma rota de health-check (`GET /health`)
 
 ---
 
