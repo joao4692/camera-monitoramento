@@ -1,0 +1,25 @@
+# Node.js (backend)
+node_modules/
+dist/
+build/
+
+# Ambiente / segredos
+.env
+.env.local
+
+# Python (camera-service)
+camera-service/venv/
+__pycache__/
+*.pyc
+
+# Angular (frontend)
+frontend/.angular/
+frontend/dist/
+
+# Editor / SO
+.vscode/
+.idea/
+.DS_Store
+
+# Logs
+*.log

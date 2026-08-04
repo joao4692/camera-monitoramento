@@ -1,0 +1,7 @@
+Documento das principais anotações de desenvolvimento.
+
+Escolhi uma estrutura em monorepo pela organização, isso me propociona um ambiente de desenvolvimento 
+em suas pastas, e me ajuda na hora de usar o docker compose , tudo separado dentro do mesmo repositorio.
+
+A versão do OPENCV-PYTHON é a mais recente ( pode dar problemas)
+
