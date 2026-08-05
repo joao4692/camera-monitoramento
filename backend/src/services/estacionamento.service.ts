@@ -46,7 +46,7 @@ export async function getStatus(): Promise<StatusEstacionamento> {
   return paraStatus(estacionamento);
 }
 
-export async function registrarEntrada(): Promise<StatusEstacionamento> {
+export async function registrarEntrada(timestamp?: Date): Promise<StatusEstacionamento> {
   const estacionamento = await buscarEstacionamentoOuFalhar();
 
   // Nunca passa de totalVagas: se já estiver cheio, o evento ainda é
@@ -60,12 +60,12 @@ export async function registrarEntrada(): Promise<StatusEstacionamento> {
     estacionamento.id,
     novasVagasOcupadas
   );
-  await eventoRepository.registrar(TipoEvento.entrada, estacionamento.id);
+  await eventoRepository.registrar(TipoEvento.entrada, estacionamento.id, timestamp);
 
   return paraStatus(atualizado);
 }
 
-export async function registrarSaida(): Promise<StatusEstacionamento> {
+export async function registrarSaida(timestamp?: Date): Promise<StatusEstacionamento> {
   const estacionamento = await buscarEstacionamentoOuFalhar();
 
   // Nunca fica negativo: trava em zero.
@@ -75,7 +75,7 @@ export async function registrarSaida(): Promise<StatusEstacionamento> {
     estacionamento.id,
     novasVagasOcupadas
   );
-  await eventoRepository.registrar(TipoEvento.saida, estacionamento.id);
+  await eventoRepository.registrar(TipoEvento.saida, estacionamento.id, timestamp);
 
   return paraStatus(atualizado);
 }

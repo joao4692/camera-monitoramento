@@ -15,7 +15,7 @@
 | 3   | Banco de dados (Postgres + Prisma)  | ✅ Concluído |
 | 4   | Autenticação (admin)                | ✅ Concluído |
 | 5   | Regras de negócio de estacionamento | ✅ Concluído |
-| 6   | WebSocket no Node                   | ⬜ Pendente |
+| 6   | WebSocket no Node                   | 🟨 Em andamento |
 | 7   | Serviço Python (câmera + OpenCV)    | ⬜ Pendente |
 | 8   | Frontend Angular                    | ⬜ Pendente |
 | 9   | Infraestrutura & Deploy (Docker)    | ⬜ Pendente |
@@ -111,13 +111,13 @@
 **O que é:** o canal de comunicação em tempo real entre o serviço Python, o backend e o frontend.
 **Para que serve:** permitir que o status das vagas seja atualizado ao vivo, sem o cliente precisar dar refresh.
 
-- [ ] Configurar servidor WebSocket (`ws`) integrado ao Express
-- [ ] Definir o schema (Zod) do evento recebido do Python (tipo, timestamp, estacionamento_id)
-- [ ] Validar todo payload recebido via WebSocket com esse schema
-- [ ] Conectar o recebimento do evento à service da Etapa 5 (entrada/saída)
-- [ ] Implementar broadcast do novo status para todos os clientes Angular conectados
-- [ ] Tratar desconexão/reconexão de clientes WebSocket
-- [ ] Testar com um cliente WebSocket simulado (ex: script de teste ou Postman) antes de integrar o Python real
+- [x] Configurar servidor WebSocket (`ws`) integrado ao Express (mesma porta, via `http.createServer`)
+- [x] Definir o schema (Zod) do evento recebido do Python (tipo, timestamp, estacionamento_id)
+- [x] Validar todo payload recebido via WebSocket com esse schema
+- [x] Conectar o recebimento do evento à service da Etapa 5 (entrada/saída)
+- [x] Implementar broadcast do novo status para todos os clientes conectados
+- [x] Tratar desconexão de clientes WebSocket (evento `close`; `wss.clients` já remove sozinho quem desconectou). Reconexão automática é responsabilidade de cada cliente (Python/Angular), não do servidor — fica pra quando esses lados existirem (Etapa 7/8)
+- [x] Testar com um cliente WebSocket simulado (script de teste local) antes de integrar o Python real
 
 ---
 
