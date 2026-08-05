@@ -14,7 +14,7 @@
 | 2   | Backend Node.js (base)              | ✅ Concluído |
 | 3   | Banco de dados (Postgres + Prisma)  | ✅ Concluído |
 | 4   | Autenticação (admin)                | ✅ Concluído |
-| 5   | Regras de negócio de estacionamento | 🟨 Em andamento |
+| 5   | Regras de negócio de estacionamento | ✅ Concluído |
 | 6   | WebSocket no Node                   | ⬜ Pendente |
 | 7   | Serviço Python (câmera + OpenCV)    | ⬜ Pendente |
 | 8   | Frontend Angular                    | ⬜ Pendente |
