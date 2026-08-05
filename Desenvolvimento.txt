@@ -5,3 +5,44 @@ em suas pastas, e me ajuda na hora de usar o docker compose , tudo separado dent
 
 A versão do OPENCV-PYTHON é a mais recente ( pode dar problemas)
 
+Vou seguir usando typescrip que mudou um pouco a etapa da 2 ( adcionando a copiliação)
+
+Decisões - 
+
+ * express - o framework do servidor    HTTP/repositorio
+ * prisma@/cliente  - cliente gerado pelo prisma para consultaro o banco
+ * zod - biblioteca de validaçãod e dados  
+ * cors - o angular vai rodar em outra porta origem 
+ * nodemon - inicia o servidor a cada mudança de arquivo TS-NODE m diretamente sem precisar compilar manual
+
+
+ ARUITETURA
+
+ Server.ts e o ponto de entrada do meu servidor que sobe o servidor para porta do env
+ APP.ts eu monto e testo as extruturas 
+
+ etapa 2 concluida
+ tapa 2 concluída. Resumo:
+
+backend/ iniciado como projeto Node em TypeScript (decisão sua).
+Dependências de produção: express, @prisma/client, zod, jsonwebtoken, ws, dotenv, cors.
+Dependências de dev: typescript, prisma (CLI), nodemon, ts-node, @types/*.
+Estrutura MVC + Repositories criada (controllers/, services/, repositories/, routes/, middlewares/).
+Servidor Express (app.ts + server.ts), com logger de requisições, error handler global e 404 tratado.
+.env/.env.example com PORT.
+Testado manualmente: /health → 200, rota inválida → 404, npm run dev (nodemon) e npm run build (tsc) funcionando.
+Detalhe técnico relevante: typescript instalou por padrão a v7, incompatível com ts-node; fixei em ^5 — se algum dia quiser migrar o runner de dev (ex: para tsx) e voltar ao TS 7, é uma decisão a avaliar depois, não urgente agora.
+Checklist atualizado e commit feito.
+
+
+NA ETAPA 4 
+Tomei a decisão de apenas fazer o sistema funcionar
+agora vamos intalar o jsonwebtoken
+Por que um repository só pra isso: é a única camada que fala com o Prisma diretamente. Se um dia a gente quiser trocar como busca o usuário (ex: cache), só mexe aqui — o service nem fica sabendo.
+
+
+HORA DE COMEÇAR IMPLEMENTAR OS TESTES
+
+primeiro preciso rodar isso no terminal
+
+npm install -D jest ts-jest @types/jest supertest @types/supertest

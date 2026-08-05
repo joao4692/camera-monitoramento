@@ -14,7 +14,7 @@
 | 2   | Backend Node.js (base)              | ✅ Concluído |
 | 3   | Banco de dados (Postgres + Prisma)  | ✅ Concluído |
 | 4   | Autenticação (admin)                | ✅ Concluído |
-| 5   | Regras de negócio de estacionamento | ⬜ Pendente |
+| 5   | Regras de negócio de estacionamento | 🟨 Em andamento |
 | 6   | WebSocket no Node                   | ⬜ Pendente |
 | 7   | Serviço Python (câmera + OpenCV)    | ⬜ Pendente |
 | 8   | Frontend Angular                    | ⬜ Pendente |
@@ -94,14 +94,15 @@
 **O que é:** a lógica central do sistema — controlar o contador de vagas ocupadas/livres.
 **Para que serve:** é o coração do domínio: sem isso, câmera e frontend não têm o que exibir ou processar.
 
-- [ ] Criar repository de acesso à tabela `Estacionamento`
-- [ ] Criar repository de acesso à tabela `Evento`
-- [ ] Criar service que processa um evento de entrada (incrementa `vagas_ocupadas`)
-- [ ] Criar service que processa um evento de saída (decrementa `vagas_ocupadas`)
-- [ ] Garantir que o contador nunca fique negativo nem ultrapasse `total_vagas`
-- [ ] Criar endpoint público `GET /estacionamento/status` (vagas livres/ocupadas)
-- [ ] Validar entrada de dados com Zod nos controllers dessa etapa
-- [ ] Testar cenários: vaga cheia, vaga vazia, eventos fora de ordem
+- [x] Criar repository de acesso à tabela `Estacionamento`
+- [x] Criar repository de acesso à tabela `Evento`
+- [x] Criar service que processa um evento de entrada (incrementa `vagas_ocupadas`)
+- [x] Criar service que processa um evento de saída (decrementa `vagas_ocupadas`)
+- [x] Garantir que o contador nunca fique negativo nem ultrapasse `total_vagas`
+- [x] Criar endpoint público `GET /estacionamento/status` (vagas livres/ocupadas)
+- [x] Validar entrada de dados com Zod nos controllers dessa etapa
+- [x] Testar cenários: vaga cheia, vaga vazia (script direto no service; "eventos fora de ordem" só fará sentido com a fila do WebSocket na Etapa 6)
+- [x] (Adicional, alinhado com a visão do admin) Endpoint protegido `PATCH /estacionamento/vagas` pra correção manual do contador
 
 ---
 
