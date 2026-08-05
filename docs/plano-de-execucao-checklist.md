@@ -131,10 +131,10 @@
 - [ ] Configurar ambiente Python (venv) e instalar dependências (`opencv-python`, cliente WebSocket, etc.)
 - [ ] Fase de teste: definir a forma de captura de frames a partir da câmera do celular (ex: app que expõe a câmera na rede local, ou captura manual de frames)
 - [ ] Implementar loop de leitura contínua de frames a partir da fonte de teste (câmera do celular)
-- [ ] Implementar lógica de detecção de veículo (entrada/saída)
+- [ ] Implementar lógica de detecção de veículo (entrada/saída) — ou, na falta de acesso a carros reais, um disparo manual/mock (ex: tecla no terminal) que simula o evento; ver [documento central](./documento-central-estacionamento-inteligente.md#fase-de-teste)
 - [ ] Montar o payload do evento em JSON conforme schema definido na Etapa 6
 - [ ] Implementar cliente WebSocket para enviar o evento ao Node.js
-- [ ] Testar detecção manual (simular passagem de veículo) e validar chegada do evento no backend
+- [ ] Testar detecção manual/mock (simular passagem de veículo) e validar chegada do evento no backend
 - [ ] Quando o projeto crescer: confirmar a URL RTSP exata da câmera Aitek (manual/app do fabricante) e trocar a fonte de captura de frames pela câmera real
 
 ---

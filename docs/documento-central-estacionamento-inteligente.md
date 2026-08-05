@@ -91,6 +91,7 @@ Enquanto o projeto ainda é pequeno, a captura dos frames será feita com a **c�
 - A única diferença nesta fase é a **fonte da imagem**: os frames vêm da câmera do celular, e não de um stream RTSP da câmera Aitek.
 - Quando o projeto crescer e a câmera Aitek estiver disponível/instalada, troca-se apenas a fonte de captura de frames no serviço Python — Node.js, banco e Angular não sofrem nenhuma alteração.
 - Essa é uma decisão temporária de fase de teste, não uma mudança de arquitetura definitiva (a decisão fechada de câmera real via RTSP, descrita acima, continua valendo para quando o projeto crescer).
+- **Simulação/mock de entrada e saída também é aceitável nesta fase.** Como nem sempre há acesso a carros reais passando pela câmera, o serviço Python pode disparar o evento manualmente (ex: apertando uma tecla pra simular "entrada" ou "saída") em vez de depender só de detecção real de movimento. Isso não muda nada do resto da arquitetura — o Node recebe o mesmo payload `{ tipo, estacionamento_id }` via WebSocket, seja ele originado de uma detecção real ou de um disparo manual/simulado.
 
 ---
 
@@ -131,6 +132,7 @@ Enquanto o projeto ainda é pequeno, a captura dos frames será feita com a **c�
 - **Evento**: cada entrada/saída registrada (tipo + timestamp).
 - **Usuário (admin)**: quem administra o sistema.
 - **Previsão** _(opcional, fora do escopo inicial — só entra se autorizado depois)_.
+- **Identificação por placa** _(opcional, fora do escopo inicial — ideia levantada em 2026-08-04: em vez de só contar veículos, reconhecer a placa na entrada/saída pra confirmar que é o mesmo veículo liberando a vaga. Fica pra depois da Etapa 7, quando já soubermos se a detecção básica funciona bem na câmera do celular — só entra se autorizado depois)_.
 
 ---
 
