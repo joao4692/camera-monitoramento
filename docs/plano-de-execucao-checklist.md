@@ -134,8 +134,8 @@
 - [x] Implementar lógica de detecção de veículo — mock via teclado (`e` = entrada, `s` = saída), já que não há acesso garantido a carros reais; ver [documento central](./documento-central-estacionamento-inteligente.md#fase-de-teste)
 - [x] Montar o payload do evento em JSON conforme schema definido na Etapa 6 (testado contra o backend real)
 - [x] Implementar cliente WebSocket para enviar o evento ao Node.js (testado: entrada+saída chegaram e o contador refletiu corretamente)
-- [ ] **Pendente do seu lado:** rodar `main.py` de verdade com a câmera do celular ligada (não tenho acesso à sua câmera/tela daqui) — validei só a parte que dá pra testar sem câmera (cliente WebSocket enviando pro backend real)
-- [ ] Quando o projeto crescer: confirmar a URL RTSP exata da câmera Aitek (manual/app do fabricante) e trocar a fonte de captura de frames pela câmera real
+- [x] Testado com a câmera real do celular (IP Webcam): vídeo ao vivo na janela, mock de teclado (`e`/`s`) enviando evento, contador do backend refletindo corretamente. No caminho, achamos e corrigimos um bug real de debounce (1 toque gerava vários eventos)
+- [ ] Quando o projeto crescer: confirmar a URL RTSP exata da câmera Aitek (manual/app do fabricante) e trocar a fonte de captura de frames pela câmera real _(fica pra quando a câmera Aitek estiver disponível — não é bloqueio agora)_
 
 ---
 
