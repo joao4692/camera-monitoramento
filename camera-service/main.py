@@ -16,6 +16,15 @@ em backend/) e do app de câmera do celular expondo o vídeo na rede local
 (ver camera-service/tests/teste_camera_celular.py pra testar só a conexão
 com a câmera, sem o WebSocket).
 
+Resiliência (nunca cai sozinho, só com 'q'):
+- Se a câmera falhar/desconectar, tenta reconectar a cada RETRY_SEGUNDOS,
+  sem fechar o WebSocket nem encerrar o programa.
+- Se o envio ao backend falhar (WebSocket caiu), a próxima tentativa de
+  envio reconecta antes de desistir; se não conseguir, avisa no terminal
+  e segue rodando (o evento daquela tentativa específica se perde, mas
+  o serviço continua de pé pro próximo).
+- 'q' é a única forma de encerrar de verdade (ex: manutenção manual).
+
 Nota sobre o debounce: cv2.waitKey roda a cada frame (dezenas de vezes
 por segundo). Sem controle, um único toque de tecla — que fica "pressionada"
 por uma fração de segundo — dispararia vários eventos, um por frame lido
@@ -30,20 +39,32 @@ from src.config import CAMERA_URL, WS_URL, ESTACIONAMENTO_ID
 from src.websocket_client import EstacionamentoWebSocketClient
 
 COOLDOWN_SEGUNDOS = 1.0
+RETRY_SEGUNDOS = 3.0
+
+
+def conectar_camera():
+    """Tenta abrir a câmera. Retorna o VideoCapture aberto, ou None se falhou
+    (a câmera nunca levanta exceção pra isso — só isOpened()/read() que avisam)."""
+    cap = cv2.VideoCapture(CAMERA_URL)
+    if not cap.isOpened():
+        cap.release()
+        return None
+    return cap
+
+
+def conectar_websocket(cliente: EstacionamentoWebSocketClient) -> bool:
+    try:
+        cliente.conectar()
+        print(f"Conectado ao backend: {WS_URL}")
+        return True
+    except Exception as err:  # noqa: BLE001 — qualquer falha de rede/protocolo aqui vira "tenta de novo depois", não crash
+        print(f"Não foi possível conectar ao backend ({WS_URL}): {err}")
+        return False
 
 
 def main() -> None:
     cliente = EstacionamentoWebSocketClient(WS_URL, ESTACIONAMENTO_ID)
-    cliente.conectar()
-    print(f"Conectado ao backend: {WS_URL}")
-
-    cap = cv2.VideoCapture(CAMERA_URL)
-    if not cap.isOpened():
-        print(f"Não foi possível conectar na câmera: {CAMERA_URL}")
-        cliente.fechar()
-        return
-
-    print("Câmera conectada. Pressione 'e' = entrada, 's' = saida, 'q' = sair.")
+    ws_conectado = conectar_websocket(cliente)
 
     ultimo_envio: dict[str, float] = {"entrada": 0.0, "saida": 0.0}
 
@@ -54,28 +75,57 @@ def main() -> None:
         ultimo_envio[tipo] = agora
         return True
 
-    try:
+    def enviar_com_resiliencia(tipo: str) -> None:
+        nonlocal ws_conectado
+        if not ws_conectado:
+            ws_conectado = conectar_websocket(cliente)
+
+        if not ws_conectado:
+            print(f"[evento] {tipo} NÃO enviado — sem conexão com o backend agora")
+            return
+
+        try:
+            cliente.enviar_evento(tipo)
+            print(f"[evento] {tipo} enviado")
+        except Exception as err:  # noqa: BLE001 — mesma ideia: falha de envio não pode matar o programa
+            print(f"[evento] falha ao enviar {tipo} ({err}) — vou tentar reconectar na próxima")
+            ws_conectado = False
+
+    print("Pressione 'e' = entrada, 's' = saida, 'q' = sair (encerra o serviço).")
+
+    sair = False
+    while not sair:
+        cap = conectar_camera()
+        if cap is None:
+            print(f"Câmera indisponível ({CAMERA_URL}), tentando de novo em {RETRY_SEGUNDOS:.0f}s...")
+            time.sleep(RETRY_SEGUNDOS)
+            continue
+
+        print("Câmera conectada.")
+
         while True:
             ret, frame = cap.read()
             if not ret:
-                print("Falha ao ler frame da câmera.")
-                break
+                print(f"Sinal da câmera perdido, tentando reconectar em {RETRY_SEGUNDOS:.0f}s...")
+                break  # sai só do loop de leitura; o loop externo cuida de reconectar a câmera
 
             cv2.imshow("Estacionamento - camera-service", frame)
             tecla = cv2.waitKey(1) & 0xFF
 
             if tecla == ord("e") and pode_enviar("entrada"):
-                cliente.enviar_evento("entrada")
-                print("[evento] entrada enviada")
+                enviar_com_resiliencia("entrada")
             elif tecla == ord("s") and pode_enviar("saida"):
-                cliente.enviar_evento("saida")
-                print("[evento] saida enviada")
+                enviar_com_resiliencia("saida")
             elif tecla == ord("q"):
+                sair = True
                 break
-    finally:
+
         cap.release()
-        cv2.destroyAllWindows()
-        cliente.fechar()
+        if not sair:
+            time.sleep(RETRY_SEGUNDOS)
+
+    cv2.destroyAllWindows()
+    cliente.fechar()
 
 
 if __name__ == "__main__":
