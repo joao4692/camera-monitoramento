@@ -15,11 +15,21 @@ Como rodar: dentro de camera-service/, com o venv ativado,
 em backend/) e do app de câmera do celular expondo o vídeo na rede local
 (ver camera-service/tests/teste_camera_celular.py pra testar só a conexão
 com a câmera, sem o WebSocket).
+
+Nota sobre o debounce: cv2.waitKey roda a cada frame (dezenas de vezes
+por segundo). Sem controle, um único toque de tecla — que fica "pressionada"
+por uma fração de segundo — dispararia vários eventos, um por frame lido
+nesse intervalo. COOLDOWN_SEGUNDOS garante que um evento do mesmo tipo só
+é aceito de novo depois de passado esse tempo mínimo.
 """
+import time
+
 import cv2
 
 from src.config import CAMERA_URL, WS_URL, ESTACIONAMENTO_ID
 from src.websocket_client import EstacionamentoWebSocketClient
+
+COOLDOWN_SEGUNDOS = 1.0
 
 
 def main() -> None:
@@ -35,6 +45,15 @@ def main() -> None:
 
     print("Câmera conectada. Pressione 'e' = entrada, 's' = saida, 'q' = sair.")
 
+    ultimo_envio: dict[str, float] = {"entrada": 0.0, "saida": 0.0}
+
+    def pode_enviar(tipo: str) -> bool:
+        agora = time.monotonic()
+        if agora - ultimo_envio[tipo] < COOLDOWN_SEGUNDOS:
+            return False
+        ultimo_envio[tipo] = agora
+        return True
+
     try:
         while True:
             ret, frame = cap.read()
@@ -45,10 +64,10 @@ def main() -> None:
             cv2.imshow("Estacionamento - camera-service", frame)
             tecla = cv2.waitKey(1) & 0xFF
 
-            if tecla == ord("e"):
+            if tecla == ord("e") and pode_enviar("entrada"):
                 cliente.enviar_evento("entrada")
                 print("[evento] entrada enviada")
-            elif tecla == ord("s"):
+            elif tecla == ord("s") and pode_enviar("saida"):
                 cliente.enviar_evento("saida")
                 print("[evento] saida enviada")
             elif tecla == ord("q"):
