@@ -144,15 +144,15 @@
 **O que é:** a interface visual do sistema, com uma parte pública e uma parte administrativa.
 **Para que serve:** dar visibilidade do status do estacionamento para clientes e permitir gestão para o admin.
 
-- [ ] Criar projeto Angular
-- [ ] Criar tela pública: status das vagas em tempo real (sem login)
-- [ ] Consumir `GET /estacionamento/status` (REST) para o estado inicial
-- [ ] Conectar ao WebSocket para atualizações ao vivo na tela pública
+- [x] Criar projeto Angular (standalone components, roteamento, CSS puro)
+- [x] Criar tela pública: status das vagas em tempo real (sem login)
+- [x] Consumir `GET /estacionamento/status` (REST) para o estado inicial
+- [x] Conectar ao WebSocket para atualizações ao vivo na tela pública (testado com Playwright: atualiza sem refresh)
 - [ ] Criar tela de login admin
 - [ ] Implementar guarda de rota (route guard) para proteger a área admin
 - [ ] Criar área admin: histórico de eventos
 - [ ] Criar área admin: configuração do estacionamento (ex: total de vagas)
-- [ ] Tratar estados de erro/loading nas telas
+- [x] Tratar estados de erro/loading na tela pública (carregando / erro ao buscar status) — falta ainda tratar isso nas telas do admin, que não existem ainda
 
 ---
 
