@@ -4,15 +4,18 @@
  * o usuário precisar dar refresh. Expõe tudo como um signal (`status`),
  * que os componentes leem diretamente no template.
  *
- * Ligações: consome GET /estacionamento/status e o WebSocket do backend
- * (Etapa 6). Usado pela tela pública (features/public-status) e pode ser
- * reaproveitado pela área admin mais adiante.
+ * Ligações: consome GET /estacionamento/status, PATCH /estacionamento/vagas
+ * e GET /estacionamento/eventos (as duas últimas exigem login — o
+ * authInterceptor cuida de anexar o token) e o WebSocket do backend
+ * (Etapa 6). Usado pela tela pública (features/public-status) e pela
+ * área admin (features/admin-dashboard).
  */
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { API_BASE_URL, WS_URL } from '../config';
 import { StatusEstacionamento } from '../models/status-estacionamento';
+import { Evento } from '../models/evento';
 
 @Injectable({ providedIn: 'root' })
 export class EstacionamentoService {
@@ -55,5 +58,18 @@ export class EstacionamentoService {
   desconectar(): void {
     this.socket?.close();
     this.socket = undefined;
+  }
+
+  async ajustarVagas(vagasOcupadas: number): Promise<void> {
+    const status = await firstValueFrom(
+      this.http.patch<StatusEstacionamento>(`${API_BASE_URL}/estacionamento/vagas`, {
+        vagasOcupadas,
+      })
+    );
+    this.status.set(status);
+  }
+
+  listarEventos(): Promise<Evento[]> {
+    return firstValueFrom(this.http.get<Evento[]>(`${API_BASE_URL}/estacionamento/eventos`));
   }
 }

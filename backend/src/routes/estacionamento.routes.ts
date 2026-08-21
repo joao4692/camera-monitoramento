@@ -5,7 +5,11 @@
  * Ligações: registrado em app.ts, igual health.routes.ts e auth.routes.ts.
  */
 import { Router } from "express";
-import { statusController, ajustarVagasController } from "../controllers/estacionamento.controller";
+import {
+  statusController,
+  ajustarVagasController,
+  eventosController,
+} from "../controllers/estacionamento.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 
 const router = Router();
@@ -15,5 +19,8 @@ router.get("/estacionamento/status", statusController);
 
 // Protegida — só admin ajusta vagas manualmente.
 router.patch("/estacionamento/vagas", authMiddleware, ajustarVagasController);
+
+// Protegida — histórico de eventos é informação de gestão, não pública.
+router.get("/estacionamento/eventos", authMiddleware, eventosController);
 
 export default router;

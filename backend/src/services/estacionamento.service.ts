@@ -14,7 +14,10 @@
 import { estacionamentoRepository } from "../repositories/estacionamento.repository";
 import { eventoRepository } from "../repositories/evento.repository";
 import { TipoEvento } from "../generated/prisma/enums";
+import type { EventoModel } from "../generated/prisma/models";
 import { AppError } from "../errors/AppError";
+
+const LIMITE_HISTORICO_PADRAO = 50;
 
 export interface StatusEstacionamento {
   totalVagas: number;
@@ -78,6 +81,10 @@ export async function registrarSaida(timestamp?: Date): Promise<StatusEstacionam
   await eventoRepository.registrar(TipoEvento.saida, estacionamento.id, timestamp);
 
   return paraStatus(atualizado);
+}
+
+export function listarEventosRecentes(limite = LIMITE_HISTORICO_PADRAO): Promise<EventoModel[]> {
+  return eventoRepository.listarRecentes(limite);
 }
 
 export async function ajustarVagasManualmente(

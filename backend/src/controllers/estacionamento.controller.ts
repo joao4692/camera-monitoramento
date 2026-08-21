@@ -11,13 +11,26 @@
  */
 import { Request, Response, NextFunction } from "express";
 import { ajustarVagasSchema } from "../schemas/estacionamento.schema";
-import { getStatus, ajustarVagasManualmente } from "../services/estacionamento.service";
+import {
+  getStatus,
+  ajustarVagasManualmente,
+  listarEventosRecentes,
+} from "../services/estacionamento.service";
 import { broadcastStatus } from "../websocket/estacionamentoSocket";
 
 export async function statusController(req: Request, res: Response, next: NextFunction) {
   try {
     const status = await getStatus();
     res.json(status);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function eventosController(req: Request, res: Response, next: NextFunction) {
+  try {
+    const eventos = await listarEventosRecentes();
+    res.json(eventos);
   } catch (err) {
     next(err);
   }

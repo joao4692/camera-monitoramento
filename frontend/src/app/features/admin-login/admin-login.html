@@ -1,0 +1,23 @@
+<main class="pagina">
+  <form class="login-card" (ngSubmit)="entrar()" #form="ngForm">
+    <h1>Login admin</h1>
+
+    <label>
+      Email
+      <input type="email" name="email" [(ngModel)]="email" required autocomplete="username" />
+    </label>
+
+    <label>
+      Senha
+      <input type="password" name="senha" [(ngModel)]="senha" required autocomplete="current-password" />
+    </label>
+
+    @if (erro()) {
+      <p class="erro">{{ erro() }}</p>
+    }
+
+    <button type="submit" [disabled]="form.invalid || carregando()">
+      {{ carregando() ? 'Entrando...' : 'Entrar' }}
+    </button>
+  </form>
+</main>

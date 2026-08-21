@@ -10,4 +10,12 @@ export const eventoRepository = {
       data: { tipo, estacionamentoId, ...(timestamp && { timestamp }) },
     });
   },
+
+  // Histórico recente, mais novo primeiro — usado pela área admin (Etapa 8).
+  listarRecentes(limite: number): Promise<EventoModel[]> {
+    return prisma.evento.findMany({
+      orderBy: { timestamp: "desc" },
+      take: limite,
+    });
+  },
 };

@@ -1,0 +1,68 @@
+<main class="pagina">
+  <header>
+    <h1>Painel do admin</h1>
+    <button class="sair" (click)="sair()">Sair</button>
+  </header>
+
+  @if (carregando()) {
+    <p>Carregando...</p>
+  } @else {
+    @if (erro()) {
+      <p class="erro">{{ erro() }}</p>
+    }
+
+    @if (estacionamento.status(); as status) {
+      <section class="card">
+        <h2>Status atual</h2>
+        <p>
+          <strong>{{ status.vagasOcupadas }}</strong> ocupadas de
+          <strong>{{ status.totalVagas }}</strong>
+          ({{ status.vagasLivres }} livres)
+        </p>
+
+        <form (ngSubmit)="salvarAjuste()" class="ajuste-form">
+          <label>
+            Ajustar vagas ocupadas
+            <input
+              type="number"
+              name="vagasOcupadas"
+              [(ngModel)]="novoValorVagas"
+              min="0"
+              [max]="status.totalVagas"
+              placeholder="ex: 12"
+            />
+          </label>
+          <button type="submit" [disabled]="novoValorVagas === null || salvando()">
+            {{ salvando() ? 'Salvando...' : 'Salvar' }}
+          </button>
+        </form>
+      </section>
+    }
+
+    <section class="card">
+      <h2>Histórico de eventos</h2>
+      @if (eventos().length === 0) {
+        <p class="vazio">Nenhum evento registrado ainda.</p>
+      } @else {
+        <table>
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Horário</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (evento of eventos(); track evento.id) {
+              <tr>
+                <td class="tipo" [class.entrada]="evento.tipo === 'entrada'" [class.saida]="evento.tipo === 'saida'">
+                  {{ evento.tipo }}
+                </td>
+                <td>{{ evento.timestamp | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </section>
+  }
+</main>
