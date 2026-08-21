@@ -17,7 +17,7 @@
 | 5   | Regras de negócio de estacionamento | ✅ Concluído |
 | 6   | WebSocket no Node                   | ✅ Concluído |
 | 7   | Serviço Python (câmera + OpenCV)    | ✅ Concluído |
-| 8   | Frontend Angular                    | ⬜ Pendente |
+| 8   | Frontend Angular                    | 🟨 Em andamento |
 | 9   | Infraestrutura & Deploy (Docker)    | ⬜ Pendente |
 | 10  | Polimento (portfólio-ready)         | ⬜ Pendente |
 
@@ -148,11 +148,11 @@
 - [x] Criar tela pública: status das vagas em tempo real (sem login)
 - [x] Consumir `GET /estacionamento/status` (REST) para o estado inicial
 - [x] Conectar ao WebSocket para atualizações ao vivo na tela pública (testado com Playwright: atualiza sem refresh)
-- [ ] Criar tela de login admin
-- [ ] Implementar guarda de rota (route guard) para proteger a área admin
-- [ ] Criar área admin: histórico de eventos
-- [ ] Criar área admin: configuração do estacionamento (ex: total de vagas)
-- [x] Tratar estados de erro/loading na tela pública (carregando / erro ao buscar status) — falta ainda tratar isso nas telas do admin, que não existem ainda
+- [x] Criar tela de login admin
+- [x] Implementar guarda de rota (route guard) para proteger a área admin
+- [x] Criar área admin: histórico de eventos (novo `GET /estacionamento/eventos` protegido, listado com cor por tipo e horário em fuso local)
+- [x] Criar área admin: configuração do estacionamento — ajuste manual de vagas ocupadas (o que foi autorizado; editar `totalVagas` não foi pedido, não implementado)
+- [x] Tratar estados de erro/loading em todas as telas (pública e admin)
 
 ---
 
