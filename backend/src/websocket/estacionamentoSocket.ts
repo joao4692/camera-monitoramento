@@ -5,12 +5,22 @@
  * conectados (tela pública, painel admin) sobre o novo status — em
  * tempo real, sem ninguém precisar perguntar de novo.
  *
+ * broadcastStatus() é exportado separado da conexão em si porque o
+ * status também muda por um caminho que não passa por aqui: o ajuste
+ * manual do admin (PATCH /estacionamento/vagas, Etapa 5/8). Sem expor
+ * essa função, quem ajustasse manualmente mudaria o banco mas ninguém
+ * conectado no WebSocket ficaria sabendo — foi um bug real, encontrado
+ * testando o frontend (Etapa 8): o contador da tela pública não mudava
+ * sozinho quando o admin corrigia via REST.
+ *
  * Ligações:
  * - Chamado uma vez em server.ts, recebendo o servidor HTTP compartilhado
  *   com o Express.
  * - Usa eventoWebSocketSchema pra validar a mensagem recebida.
  * - Usa registrarEntrada/registrarSaida/getStatus de estacionamento.service.ts
  *   (os mesmos da Etapa 5 — nenhuma regra de negócio nova aqui).
+ * - broadcastStatus() é chamado por estacionamento.controller.ts depois
+ *   de um ajuste manual bem-sucedido.
  */
 import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
@@ -22,8 +32,11 @@ import {
   StatusEstacionamento,
 } from "../services/estacionamento.service";
 
+let wssInstance: WebSocketServer | undefined;
+
 export function initWebSocketServer(server: Server) {
   const wss = new WebSocketServer({ server });
+  wssInstance = wss;
 
   wss.on("connection", (socket) => {
     console.log("[WS] cliente conectado");
@@ -45,7 +58,7 @@ export function initWebSocketServer(server: Server) {
             ? await registrarEntrada(timestamp)
             : await registrarSaida(timestamp);
 
-        broadcast(wss, status);
+        broadcastStatus(status);
       } catch (err) {
         // Mensagem ruim de UM cliente não pode derrubar a conexão dos
         // outros nem do servidor — mesma filosofia do error handler REST.
@@ -60,9 +73,13 @@ export function initWebSocketServer(server: Server) {
   });
 }
 
-function broadcast(wss: WebSocketServer, status: StatusEstacionamento) {
+export function broadcastStatus(status: StatusEstacionamento): void {
+  if (!wssInstance) {
+    return; // servidor WebSocket ainda não subiu (ex: chamado durante testes isolados)
+  }
+
   const payload = JSON.stringify(status);
-  for (const client of wss.clients) {
+  for (const client of wssInstance.clients) {
     if (client.readyState === WebSocket.OPEN) {
       client.send(payload);
     }

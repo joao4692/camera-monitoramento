@@ -5,11 +5,14 @@
  *
  * Ligações: usado por estacionamento.routes.ts. statusController é público;
  * ajustarVagasController passa pelo authMiddleware antes de chegar aqui
- * (só admin ajusta vagas manualmente).
+ * (só admin ajusta vagas manualmente). Chama broadcastStatus() depois de
+ * um ajuste bem-sucedido, pra quem estiver com a tela pública aberta ver
+ * a mudança sem precisar dar refresh (ver nota em websocket/estacionamentoSocket.ts).
  */
 import { Request, Response, NextFunction } from "express";
 import { ajustarVagasSchema } from "../schemas/estacionamento.schema";
 import { getStatus, ajustarVagasManualmente } from "../services/estacionamento.service";
+import { broadcastStatus } from "../websocket/estacionamentoSocket";
 
 export async function statusController(req: Request, res: Response, next: NextFunction) {
   try {
@@ -24,6 +27,7 @@ export async function ajustarVagasController(req: Request, res: Response, next: 
   try {
     const { vagasOcupadas } = ajustarVagasSchema.parse(req.body);
     const status = await ajustarVagasManualmente(vagasOcupadas);
+    broadcastStatus(status);
     res.json(status);
   } catch (err) {
     next(err);
