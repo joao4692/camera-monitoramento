@@ -40,12 +40,23 @@ from src.websocket_client import EstacionamentoWebSocketClient
 
 COOLDOWN_SEGUNDOS = 1.0
 RETRY_SEGUNDOS = 3.0
+CAMERA_TIMEOUT_MSEC = 5000
 
 
 def conectar_camera():
     """Tenta abrir a câmera. Retorna o VideoCapture aberto, ou None se falhou
-    (a câmera nunca levanta exceção pra isso — só isOpened()/read() que avisam)."""
-    cap = cv2.VideoCapture(CAMERA_URL)
+    (a câmera nunca levanta exceção pra isso — só isOpened()/read() que avisam).
+
+    O timeout é essencial aqui: sem ele, cap.open()/cap.read() podem ficar
+    bloqueados indefinidamente esperando resposta de rede (ex: Wi-Fi caiu
+    no meio da conexão) em vez de falhar rápido — e nesse caso o loop de
+    retry do main() nunca chegaria a rodar de novo, porque ficaria preso
+    dentro da própria chamada que nunca retorna.
+    """
+    cap = cv2.VideoCapture()
+    cap.set(cv2.CAP_PROP_OPEN_TIMEOUT_MSEC, CAMERA_TIMEOUT_MSEC)
+    cap.set(cv2.CAP_PROP_READ_TIMEOUT_MSEC, CAMERA_TIMEOUT_MSEC)
+    cap.open(CAMERA_URL, cv2.CAP_FFMPEG)
     if not cap.isOpened():
         cap.release()
         return None
