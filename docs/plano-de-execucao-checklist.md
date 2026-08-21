@@ -15,7 +15,7 @@
 | 3   | Banco de dados (Postgres + Prisma)  | ✅ Concluído |
 | 4   | Autenticação (admin)                | ✅ Concluído |
 | 5   | Regras de negócio de estacionamento | ✅ Concluído |
-| 6   | WebSocket no Node                   | 🟨 Em andamento |
+| 6   | WebSocket no Node                   | ✅ Concluído |
 | 7   | Serviço Python (câmera + OpenCV)    | ⬜ Pendente |
 | 8   | Frontend Angular                    | ⬜ Pendente |
 | 9   | Infraestrutura & Deploy (Docker)    | ⬜ Pendente |
