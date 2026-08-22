@@ -17,6 +17,6 @@
 - [x] 3. Barra de busca (protótipo, não funcional) — visual de "buscar estacionamento", preparando terreno pra ideia futura de múltiplos estacionamentos
 - [x] 4. Botão "Fazer reserva"
 - [x] 5. Fluxo de reserva (modal/tela): selecionar vaga, selecionar horário, forma de pagamento (Pix / Cartão crédito / Cartão débito) — tudo simulado, sem back-end
-- [ ] 6. Responsividade/otimização para celular em toda a tela
+- [x] 6. Responsividade/otimização para celular em toda a tela — testado em 320/375/768/1280px, sem rolagem horizontal em nenhum tamanho; media query extra pra telas ≤360px
 
 Cada passo marcado como concluído aqui conforme formos implementando juntos.

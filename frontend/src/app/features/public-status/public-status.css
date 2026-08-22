@@ -265,3 +265,17 @@
   font-size: 0.8rem;
   color: #9ca3af;
 }
+
+/* Telas bem estreitas (celulares pequenos): encolhe um pouco os textos
+   que quebravam linha de forma feia (título do cabeçalho e botão de
+   confirmar reserva dentro do modal). */
+@media (max-width: 360px) {
+  .topo h1 {
+    font-size: 1rem;
+  }
+
+  .modal-acoes button {
+    font-size: 0.9rem;
+    padding: 0.75rem 0.5rem;
+  }
+}
