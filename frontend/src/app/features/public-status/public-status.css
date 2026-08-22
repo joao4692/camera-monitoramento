@@ -43,36 +43,55 @@
   margin: 0.2rem 0 0;
 }
 
-.status-card {
+.conteudo {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.blocos-status {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.bloco {
   background: #f9fafb;
   border: 1px solid #e5e7eb;
   border-radius: 1rem;
-  padding: 2rem 3rem;
+  padding: 1.25rem 0.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
-.contador {
-  font-size: 4rem;
+.bloco-numero {
+  font-size: 2rem;
   font-weight: 700;
   color: #111827;
 }
 
-.vagas-livres {
-  color: #16a34a;
-}
-
-.separador {
-  color: #9ca3af;
-  margin: 0 0.25rem;
-}
-
-.total {
+.bloco-rotulo {
+  font-size: 0.8rem;
   color: #6b7280;
 }
 
-.legenda {
-  font-size: 1.1rem;
-  color: #374151;
-  margin-top: 0.5rem;
+.bloco-livres .bloco-numero {
+  color: #16a34a;
+}
+
+.bloco-ocupadas .bloco-numero {
+  color: #dc2626;
+}
+
+/* Celular: empilha os 3 blocos em vez de espremer lado a lado */
+@media (max-width: 480px) {
+  .blocos-status {
+    grid-template-columns: 1fr;
+  }
 }
 
 .detalhe {

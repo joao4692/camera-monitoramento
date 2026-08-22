@@ -10,23 +10,32 @@
 </header>
 
 
-  @if (carregando()) {
-    <p class="carregando">Carregando status...</p>
-  } @else if (erro()) {
-    <p class="erro">{{ erro() }}</p>
-  } @else if (estacionamento.status(); as status) {
-    <section class="status-card">
-      <div class="contador">
-        <span class="vagas-livres">{{ status.vagasLivres }}</span>
-        <span class="separador">/</span>
-        <span class="total">{{ status.totalVagas }}</span>
-      </div>
-      <p class="legenda">vagas livres</p>
-      <p class="detalhe">{{ status.vagasOcupadas }} ocupadas</p>
-    </section>
+   <div class="conteudo">
+    @if (carregando()) {
+      <p class="carregando">Carregando status...</p>
+    } @else if (erro()) {
+      <p class="erro">{{ erro() }}</p>
+    } @else if (estacionamento.status(); as status) {
+      <section class="blocos-status">
+        <div class="bloco bloco-livres">
+          <span class="bloco-numero">{{ status.vagasLivres }}</span>
+          <span class="bloco-rotulo">Vagas livres</span>
+        </div>
+        <div class="bloco bloco-total">
+          <span class="bloco-numero">{{ status.totalVagas }}</span>
+          <span class="bloco-rotulo">Total de vagas</span>
+        </div>
+        <div class="bloco bloco-ocupadas">
+          <span class="bloco-numero">{{ status.vagasOcupadas }}</span>
+          <span class="bloco-rotulo">Ocupadas</span>
+        </div>
+      </section>
 
-    <p class="tempo-real" [class.ativo]="estacionamento.conectado()">
-      {{ estacionamento.conectado() ? 'Atualizando em tempo real' : 'Conectando...' }}
-    </p>
-  }
+      <p class="tempo-real" [class.ativo]="estacionamento.conectado()">
+        {{ estacionamento.conectado() ? 'Atualizando em tempo real' : 'Conectando...' }}
+      </p>
+    }
+  </div>
+
+  
 </main>
