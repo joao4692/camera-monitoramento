@@ -16,7 +16,7 @@
 - [x] 2. Blocos separados de vagas — cards distintos pra "Vagas livres", "Total de vagas" e "Ocupadas" (hoje é um card só)
 - [x] 3. Barra de busca (protótipo, não funcional) — visual de "buscar estacionamento", preparando terreno pra ideia futura de múltiplos estacionamentos
 - [x] 4. Botão "Fazer reserva"
-- [ ] 5. Fluxo de reserva (modal/tela): selecionar vaga, selecionar horário, forma de pagamento (Pix / Cartão crédito / Cartão débito) — tudo simulado, sem back-end
+- [x] 5. Fluxo de reserva (modal/tela): selecionar vaga, selecionar horário, forma de pagamento (Pix / Cartão crédito / Cartão débito) — tudo simulado, sem back-end
 - [ ] 6. Responsividade/otimização para celular em toda a tela
 
 Cada passo marcado como concluído aqui conforme formos implementando juntos.

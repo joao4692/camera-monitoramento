@@ -7,10 +7,11 @@
  * e escutar atualizações ao vivo (WebSocket).
  */
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { EstacionamentoService } from '../../core/services/estacionamento.service';
 
 @Component({
-  imports: [],
+  imports: [FormsModule],
   selector: 'app-public-status',
   styleUrl: './public-status.css',
   templateUrl: './public-status.html',
@@ -18,6 +19,14 @@ import { EstacionamentoService } from '../../core/services/estacionamento.servic
 export class PublicStatus implements OnInit, OnDestroy {
   readonly carregando = signal(true);
   readonly erro = signal<string | null>(null);
+
+  // Estado do modal de reserva (protótipo — nada disso é salvo de verdade)
+  readonly modalAberto = signal(false);
+  readonly reservaConfirmada = signal(false);
+
+  vagaSelecionada: number | null = null;
+  horarioSelecionado = '';
+  formaPagamento = '';
 
   constructor(readonly estacionamento: EstacionamentoService) {}
 
@@ -35,5 +44,30 @@ export class PublicStatus implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.estacionamento.desconectar();
+  }
+
+  // Gera uma lista [1, 2, 3, ...] do tamanho de vagasLivres, só pra ter
+  // "vagas" pra escolher no protótipo (nosso backend só guarda a
+  // contagem, não vagas individuais numeradas).
+  listaVagas(): number[] {
+    const livres = this.estacionamento.status()?.vagasLivres ?? 0;
+    return Array.from({ length: livres }, (_, i) => i + 1);
+  }
+
+  abrirModal(): void {
+    this.modalAberto.set(true);
+    this.reservaConfirmada.set(false);
+    this.vagaSelecionada = null;
+    this.horarioSelecionado = '';
+    this.formaPagamento = '';
+  }
+
+  fecharModal(): void {
+    this.modalAberto.set(false);
+  }
+
+  confirmarReserva(): void {
+    // Protótipo: não chama nenhum endpoint, só simula sucesso na tela.
+    this.reservaConfirmada.set(true);
   }
 }

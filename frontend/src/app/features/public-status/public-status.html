@@ -42,10 +42,76 @@
       <p class="tempo-real" [class.ativo]="estacionamento.conectado()">
         {{ estacionamento.conectado() ? 'Atualizando em tempo real' : 'Conectando...' }}
       </p>
-            <button class="botao-reserva" type="button">Fazer reserva</button>
+            <button class="botao-reserva" type="button" (click)="abrirModal()">Fazer reserva</button>
 
     }
   </div>
 
-  
+  @if (modalAberto()) {
+    <div class="modal-fundo" (click)="fecharModal()">
+      <div class="modal-caixa" (click)="$event.stopPropagation()">
+        @if (!reservaConfirmada()) {
+          <h2>Fazer reserva</h2>
+
+          <label>
+            Selecione a vaga
+            <select [(ngModel)]="vagaSelecionada">
+              <option [ngValue]="null" disabled>Escolha uma vaga</option>
+              @for (vaga of listaVagas(); track vaga) {
+                <option [ngValue]="vaga">Vaga {{ vaga }}</option>
+              }
+            </select>
+          </label>
+
+          <label>
+            Selecione o horário
+            <select [(ngModel)]="horarioSelecionado">
+              <option value="" disabled>Escolha um horário</option>
+              <option value="08:00">08:00</option>
+              <option value="09:00">09:00</option>
+              <option value="10:00">10:00</option>
+              <option value="14:00">14:00</option>
+              <option value="18:00">18:00</option>
+            </select>
+          </label>
+
+          <fieldset class="pagamento">
+            <legend>Forma de pagamento</legend>
+            <label class="opcao-pagamento">
+              <input type="radio" name="pagamento" value="Pix" [(ngModel)]="formaPagamento" />
+              Pix
+            </label>
+            <label class="opcao-pagamento">
+              <input type="radio" name="pagamento" value="Cartão de crédito" [(ngModel)]="formaPagamento" />
+              Cartão de crédito
+            </label>
+            <label class="opcao-pagamento">
+              <input type="radio" name="pagamento" value="Cartão de débito" [(ngModel)]="formaPagamento" />
+              Cartão de débito
+            </label>
+          </fieldset>
+
+          <div class="modal-acoes">
+            <button type="button" class="botao-secundario" (click)="fecharModal()">Cancelar</button>
+            <button
+              type="button"
+              class="botao-reserva"
+              [disabled]="!vagaSelecionada || !horarioSelecionado || !formaPagamento"
+              (click)="confirmarReserva()"
+            >
+              Confirmar reserva
+            </button>
+          </div>
+        } @else {
+          <div class="reserva-sucesso">
+            <p class="sucesso-icone">✅</p>
+            <h2>Reserva confirmada!</h2>
+            <p>Vaga {{ vagaSelecionada }} às {{ horarioSelecionado }}, pagamento via {{ formaPagamento }}.</p>
+            <p class="aviso-prototipo">(Simulação — nenhuma reserva foi salva de verdade)</p>
+            <button type="button" class="botao-reserva" (click)="fecharModal()">Fechar</button>
+          </div>
+        }
+      </div>
+    </div>
+  }
 </main>
