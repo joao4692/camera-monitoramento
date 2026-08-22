@@ -12,7 +12,7 @@
 
 ## Passos planejados
 
-- [ ] 1. Cabeçalho — header com identidade visual, título e (futuramente) navegação
+- [x] 1. Cabeçalho — header com identidade visual, título e (futuramente) navegação
 - [ ] 2. Blocos separados de vagas — cards distintos pra "Vagas livres", "Total de vagas" e "Ocupadas" (hoje é um card só)
 - [ ] 3. Barra de busca (protótipo, não funcional) — visual de "buscar estacionamento", preparando terreno pra ideia futura de múltiplos estacionamentos
 - [ ] 4. Botão "Fazer reserva"
