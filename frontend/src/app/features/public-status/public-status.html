@@ -16,6 +16,14 @@
     } @else if (erro()) {
       <p class="erro">{{ erro() }}</p>
     } @else if (estacionamento.status(); as status) {
+            <div class="busca-container">
+        <input
+          type="text"
+          class="busca-input"
+          placeholder="🔍 Buscar estacionamento..."
+        />
+      </div>
+
       <section class="blocos-status">
         <div class="bloco bloco-livres">
           <span class="bloco-numero">{{ status.vagasLivres }}</span>
