@@ -18,7 +18,7 @@
 | 6   | WebSocket no Node                   | ✅ Concluído |
 | 7   | Serviço Python (câmera + OpenCV)    | ✅ Concluído |
 | 8   | Frontend Angular                    | 🟨 Em andamento |
-| 9   | Infraestrutura & Deploy (Docker)    | ⬜ Pendente |
+| 9   | Infraestrutura & Deploy (Docker)    | 🟨 Em andamento |
 | 10  | Polimento (portfólio-ready)         | ⬜ Pendente |
 
 > Atualize a coluna **Status** manualmente (⬜ Pendente / 🟨 Em andamento / ✅ Concluído) conforme for avançando.
@@ -163,29 +163,29 @@
 
 ### 9.1 — Containerização de cada serviço
 
-- [ ] Criar `Dockerfile` do backend Node.js
-- [ ] Criar `Dockerfile` do frontend Angular (build + servidor estático, ex: Nginx)
-- [ ] Criar `Dockerfile` do serviço Python (com dependências de OpenCV)
-- [ ] Criar `.dockerignore` em cada serviço (node_modules, dist, **pycache**, .env, etc.)
+- [x] Criar `Dockerfile` do backend Node.js (testado rodando de verdade contra o Postgres antes de usar em produção)
+- [x] Criar `Dockerfile` do frontend Angular (build + Nginx) — existe e builda, mas **não é o que está em produção**: o deploy real usa o Static Site nativo do Render (mais simples, sem Docker), não esse Dockerfile. Fica disponível pra quem quiser rodar via Docker/self-host.
+- [ ] Criar `Dockerfile` do serviço Python — **decisão deliberada: não containerizar.** O `camera-service` precisa de acesso à rede local onde a câmera está (celular hoje, Aitek no futuro); container atrapalharia isso sem configuração extra de rede do host. Roda direto na máquina que está na mesma rede da câmera.
+- [x] Criar `.dockerignore` (feito no backend, que é quem realmente builda via Docker)
 
 ### 9.2 — Orquestração local com Docker Compose
 
-- [ ] Criar `docker-compose.yml` na raiz do monorepo
-- [ ] Adicionar serviço `postgres` (com volume para persistência dos dados)
-- [ ] Adicionar serviço `backend` (depende do `postgres`)
-- [ ] Adicionar serviço `frontend`
-- [ ] Adicionar serviço `camera-service` (depende do `backend` estar de pé)
-- [ ] Configurar rede interna do Docker para comunicação entre os serviços
-- [ ] Configurar variáveis de ambiente de cada serviço via `.env` referenciado no compose
-- [ ] Subir tudo com `docker compose up -d` e validar que os serviços conversam entre si
-- [ ] Rodar as migrations do Prisma dentro do container do backend (`docker compose exec backend ...`)
+- [x] Criar `docker-compose.yml` na raiz do monorepo
+- [x] Adicionar serviço `postgres` (com volume para persistência dos dados)
+- [x] Adicionar serviço `backend` (depende do `postgres`)
+- [x] Adicionar serviço `frontend`
+- [ ] Adicionar serviço `camera-service` — não adicionado, mesma decisão do item acima (precisa rodar fora do Docker, na rede da câmera)
+- [x] Rede interna do Docker (criada automaticamente pelo compose; testamos o backend containerizado falando com o Postgres via nome do serviço)
+- [x] Variáveis de ambiente de cada serviço via `.env` referenciado no compose
+- [ ] Subir tudo com `docker compose up -d` e validar — **não testado como stack completa via compose**; testamos backend e frontend containerizados separadamente (backend rodando de verdade, frontend só o build). Rodar o `docker compose up -d` completo fica pendente de validação.
+- [x] Migrations do Prisma no container do backend (testado via `docker run` direto; o `CMD` da imagem já roda `prisma migrate deploy` sozinho a cada start)
 
 ### 9.3 — Deploy
 
-- [ ] Definir o ambiente de destino do deploy (ex: VPS, servidor local, nuvem) — **decisão a ser autorizada antes de seguir**
-- [ ] Documentar passo a passo de build e subida das imagens em produção
-- [ ] Configurar variáveis de ambiente de produção (segredos, JWT secret, URL do banco)
-- [ ] Validar acesso externo à tela pública e à área admin após deploy
+- [x] Ambiente de destino: **Render.com** (autorizado nesta conversa — Web Service pro backend, Postgres gerenciado, Static Site pro frontend, todos no plano gratuito)
+- [ ] Documentar passo a passo de build e subida em produção — feito interativamente nesta conversa, mas ainda não escrito num README/doc do projeto pra consulta futura
+- [x] Variáveis de ambiente de produção configuradas (JWT_SECRET, DATABASE_URL do Postgres do Render, ADMIN_SEED_*)
+- [x] Acesso externo validado: tela pública e painel admin testados em produção (Playwright + testes manuais), incluindo correção de um 404 em rotas internas do Angular (precisou de regra de rewrite `/* → /index.html` nativa do Render — o arquivo `_redirects` estilo Netlify não é reconhecido por ele)
 
 ---
 
